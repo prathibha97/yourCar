@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import Navbar from '../../components/Navbar';
+import TopSection from '../topSection';
 
 const PageContainer = styled.div`
   ${tw`
@@ -16,7 +17,8 @@ overflow-x-hidden
 const HomePage = () => {
   return (
     <PageContainer>
-      <Navbar/>
+      <Navbar />
+      <TopSection />
     </PageContainer>
   );
 };
