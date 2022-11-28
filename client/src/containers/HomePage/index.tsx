@@ -3,17 +3,12 @@ import tw from 'twin.macro';
 import BookCard from '../../components/bookCard';
 import { Marginer } from '../../components/marginer';
 import Navbar from '../../components/Navbar';
-import TopSection from '../topSection';
+import AboutUs from './aboutUs';
+import BookingSteps from './bookingSteps';
+import TopSection from './topSection';
 
 const PageContainer = styled.div`
-  ${tw`
-flex
-flex-col
-w-full
-h-full
-items-center 
-overflow-x-hidden
-`}
+  ${tw`flex flex-col items-center w-full h-full overflow-x-hidden `}
 `;
 
 const HomePage = () => {
@@ -21,8 +16,11 @@ const HomePage = () => {
     <PageContainer>
       <Navbar />
       <TopSection />
-      <Marginer direction='vertical' margin='4em'/>
+      <Marginer direction="vertical" margin="4em" />
       <BookCard />
+      <Marginer direction="vertical" margin="8em" />
+      <BookingSteps/>
+      <AboutUs/>
     </PageContainer>
   );
 };
