@@ -1,9 +1,10 @@
 import Carousel, { Dots, slidesToShowPlugin } from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 import tw from 'twin.macro';
+import carService from '../../app/services/carService';
 import Car from '../../components/car';
 import { SCREENS } from '../../components/responsive';
 import { Icar } from '../../typings/car';
@@ -23,6 +24,13 @@ const TopCars = () => {
   const [current, setCurrent] = useState(0);
 
   const isMobile = useMediaQuery({ maxWidth: SCREENS.sm });
+
+  const fetchTopCars = async() =>{
+    const cars = await carService.getCars().catch((err)=>{
+      console.log(err)
+    })
+    console.log(cars);
+  }
 
   const testCar: Icar = {
     name: 'Audi S3 Car',
@@ -45,6 +53,10 @@ const TopCars = () => {
     gearType: 'Auto',
     gas: 'Petrol',
   };
+
+  useEffect(()=>{
+    fetchTopCars()
+  },[])
 
   const cars = [
     <Car {...testCar} />,
