@@ -3,6 +3,7 @@ import '@brainhubeu/react-carousel/lib/style.css';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
+import { MoonLoader } from 'react-spinners';
 import { createSelector } from 'reselect';
 import styled from 'styled-components';
 import tw from 'twin.macro';
@@ -28,18 +29,26 @@ const EmptyCars = styled.div`
   ${tw`flex items-center justify-center text-sm text-gray-500`}
 `;
 
+const LoadingContainer = styled.div`
+  ${tw`flex items-center justify-center text-base text-black mt-9`}
+`;
+
 const TopCars = () => {
   const dispatch = useDispatch();
 
   const [current, setCurrent] = useState(0);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const isMobile = useMediaQuery({ maxWidth: SCREENS.sm });
 
   const fetchTopCars = async () => {
+    setIsLoading(true);
     const cars = await carService.getCars().catch((err) => {
       console.log(err);
     });
     dispatch(setTopCars(cars));
+    setIsLoading(false);
   };
 
   const stateSelector = createSelector(makeSelectTopCars, (topCars) => ({
@@ -86,8 +95,13 @@ const TopCars = () => {
   return (
     <TopCarsContainer>
       <Title>Explore Out Top Deals</Title>
+      {isLoading && (
+        <LoadingContainer>
+          <MoonLoader loading />
+        </LoadingContainer>
+      )}
       {isEmptyTopCars && <EmptyCars>No Cars to Show</EmptyCars>}
-      {!isEmptyTopCars && (
+      {!isEmptyTopCars && !isLoading && (
         <CarsContainer>
           <Carousel
             value={current}
