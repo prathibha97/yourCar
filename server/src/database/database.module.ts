@@ -1,20 +1,17 @@
-import { DataSource } from 'typeorm';
+import { DataSource, getConnectionOptions } from 'typeorm';
 
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      port: 3306,
-      username: 'root',
-      password: '213097',
-      host: 'localhost',
-      database: 'yourcar',
-      entities: ['dist/**/entities/*{.ts,.js}'],
-      synchronize: true,
-      migrations: ['dist/migrations/*{.ts,.js}'],
+    TypeOrmModule.forRootAsync({
+      useFactory: async () =>
+        Object.assign(
+          await getConnectionOptions(
+            process.env.NODE_ENV === 'production' ? 'prod' : 'dev',
+          ),
+        ),
     }),
   ],
   exports: [TypeOrmModule],
